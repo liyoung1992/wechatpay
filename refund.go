@@ -17,6 +17,7 @@ import (
 	"strings"
 )
 
+//退款
 func (this *WechatPay) Refund(param OrderRefund) bool {
 
 	param.AppId = this.AppId
@@ -79,6 +80,7 @@ func (this *WechatPay) Refund(param OrderRefund) bool {
 
 }
 
+//退款查询
 func (this *WechatPay) RefundQuery(order_id string) bool {
 
 	var refund_status OrderRefundQuery
