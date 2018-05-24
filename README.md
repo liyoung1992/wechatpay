@@ -17,11 +17,12 @@
 
 - 公众号支付 （JSAPI ）
 
+- APP支付 （APP）
+
 - 退款
 
 - 退款查询
 
-APP如果有需求，请联系开发！
 ## 异步通知
 
 ```go
@@ -111,7 +112,7 @@ func (this *WechatPay) PayNotifyUrl(c *gin.Context) {
 
 ```
 
-发起扫码支付(其他支付改对应的tradetype即可)
+### 发起扫码支付(其他支付改对应的tradetype即可)
 
 ```go
 
@@ -127,6 +128,8 @@ func (this *WechatPay) PayNotifyUrl(c *gin.Context) {
     ......
 
 ```
+APP支付和公众号支付都是先返回：预支付交易单，然后用预支付交易码在进行支付操作
+
 
 ## License
 
