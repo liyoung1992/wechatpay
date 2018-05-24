@@ -8,13 +8,13 @@ import (
 	"io/ioutil"
 	"net/http"
 	"encoding/json"
-	"errors"
+	// "errors"
 	"glink/AIYShopWeb/shared/gin"
 	"strings"
 )
 
 //统一下单
-func (this *WechatPay) Pay(param UnitOrder) (string, error) {
+func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 	param.AppId = this.AppId
 	param.MchId = this.MchId
 	param.NonceStr = randomNonceStr()
@@ -36,18 +36,18 @@ func (this *WechatPay) Pay(param UnitOrder) (string, error) {
 	if param.TradeType == "JSAPI" {
 		m["openid"] = param.Openid
 	}
-	param.Sign = getSign(m, this.ApiKey)
+	param.Sign = GetSign(m, this.ApiKey)
 
 	bytes_req, err := xml.Marshal(param)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	str_req := string(bytes_req)
 	str_req = strings.Replace(str_req, "UnitOrder", "xml", -1)
-
+	fmt.Println(str_req)
 	req, err := http.NewRequest("POST", UNIT_ORDER_URL, bytes.NewReader([]byte(str_req)))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	req.Header.Set("Accept", "application/xml")
 	req.Header.Set("Content-Type", "application/xml;charset=utf-8")
@@ -58,23 +58,16 @@ func (this *WechatPay) Pay(param UnitOrder) (string, error) {
 	w_req := http.Client{}
 	resp, err := w_req.Do(req)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
 	var pay_result UnifyOrderResult
 	err = xml.Unmarshal(body, &pay_result)
-	if pay_result.ReturnCode == "SUCCESS" && pay_result.ResultCode == "SUCCESS" {
-		if pay_result.TradeType == "MWEB" {
-			return pay_result.MwebUrl, nil
-		} else if pay_result.TradeType == "NATIVE" {
-			return pay_result.CodeUrl, nil
-		} else if pay_result.TradeType == "JSAPI" {
-			return pay_result.PrepayId, nil
-		} else {
-			return "", errors.New("trade type err")
-		}
+	if err != nil {
+		return nil,err
 	}
-	return "", errors.New(pay_result.ReturnMsg)
+	return &pay_result,nil
 }
 
 //微信扫码回调地址(gin框架)

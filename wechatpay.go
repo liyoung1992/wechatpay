@@ -32,7 +32,7 @@ func New(appId, mchId, apiKey string, apiclient_cert, apiclient_key []byte) (cli
 }
 
 //wxpay计算签名的函数
-func getSign(mReq map[string]interface{}, key string) (sign string) {
+func GetSign(mReq map[string]interface{}, key string) (sign string) {
 
 	sorted_keys := make([]string, 0)
 	for k, _ := range mReq {
@@ -58,7 +58,7 @@ func getSign(mReq map[string]interface{}, key string) (sign string) {
 
 //微信支付签名验证函数
 func (this *WechatPay) verifySign(needVerifyM map[string]interface{}, sign string) bool {
-	signCalc := getSign(needVerifyM, this.ApiKey)
+	signCalc := GetSign(needVerifyM, this.ApiKey)
 	if sign == signCalc {
 		log.Info("wechat verify success!")
 		return true
