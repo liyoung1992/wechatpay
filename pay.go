@@ -44,7 +44,7 @@ func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 	}
 	str_req := string(bytes_req)
 	str_req = strings.Replace(str_req, "UnitOrder", "xml", -1)
-	fmt.Println(str_req)
+	log.Info(str_req)
 	req, err := http.NewRequest("POST", UNIT_ORDER_URL, bytes.NewReader([]byte(str_req)))
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 		return nil, err
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
+	log.Info(string(body))
 	var pay_result UnifyOrderResult
 	err = xml.Unmarshal(body, &pay_result)
 	if err != nil {
@@ -106,7 +106,7 @@ func (this *WechatPay) PayNotifyUrl(c *gin.Context) {
 	reqMap["time_end"] = wx_notify_req.TimeEnd
 
 	//进行签名校验
-	if this.verifySign(reqMap, wx_notify_req.Sign) {
+	if this.VerifySign(reqMap, wx_notify_req.Sign) {
 		record, err := json.Marshal(wx_notify_req)
 		if err != nil {
 			log.Error(err, "wechat pay marshal err :"+err.Error())

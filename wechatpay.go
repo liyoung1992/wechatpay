@@ -57,7 +57,7 @@ func GetSign(mReq map[string]interface{}, key string) (sign string) {
 }
 
 //微信支付签名验证函数
-func (this *WechatPay) verifySign(needVerifyM map[string]interface{}, sign string) bool {
+func (this *WechatPay) VerifySign(needVerifyM map[string]interface{}, sign string) bool {
 	signCalc := GetSign(needVerifyM, this.ApiKey)
 	if sign == signCalc {
 		log.Info("wechat verify success!")
