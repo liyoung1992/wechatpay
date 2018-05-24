@@ -5,7 +5,7 @@ import (
 
 	"encoding/xml"
 
-	"glink/AIYShopWeb/shared/log"
+	log "github.com/sdbaiguanghe/glog"
 
 	"io/ioutil"
 

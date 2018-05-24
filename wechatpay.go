@@ -4,7 +4,8 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"glink/AIYShopWeb/shared/log"
+	
+	log "github.com/sdbaiguanghe/glog"
 	"crypto/tls"
 	"math/rand"
 	"net/http"
