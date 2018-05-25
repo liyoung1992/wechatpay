@@ -2,13 +2,13 @@ package wechatpay
 
 import (
 	"bytes"
-	"fmt"
+	// "fmt"
 	"encoding/xml"
 
-	log "github.com/sdbaiguanghe/glog"
+	// log "github.com/sdbaiguanghe/glog"
 	"io/ioutil"
 	"net/http"
-	"encoding/json"
+	// "encoding/json"
 	// "errors"
 	// "github.com/gin-gonic/gin"
 	"strings"
@@ -45,7 +45,6 @@ func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 	}
 	str_req := string(bytes_req)
 	str_req = strings.Replace(str_req, "UnitOrder", "xml", -1)
-	log.Info(str_req)
 	req, err := http.NewRequest("POST", UNIT_ORDER_URL, bytes.NewReader([]byte(str_req)))
 	if err != nil {
 		return nil, err
@@ -62,7 +61,7 @@ func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 		return nil, err
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	log.Info(string(body))
+
 	var pay_result UnifyOrderResult
 	err = xml.Unmarshal(body, &pay_result)
 	if err != nil {
