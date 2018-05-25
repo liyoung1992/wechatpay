@@ -65,9 +65,9 @@ func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 	var pay_result UnifyOrderResult
 	err = xml.Unmarshal(body, &pay_result)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
-	return &pay_result,nil
+	return &pay_result, nil
 }
 
 //

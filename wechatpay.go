@@ -4,14 +4,14 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	
-	log "github.com/sdbaiguanghe/glog"
+
 	"crypto/tls"
+	log "github.com/sdbaiguanghe/glog"
 	"math/rand"
 	"net/http"
 	"sort"
-	"time"
 	"strings"
+	"time"
 )
 
 type WechatPay struct {
@@ -68,10 +68,10 @@ func (this *WechatPay) VerifySign(needVerifyM map[string]interface{}, sign strin
 	return false
 }
 
-//
-func withCertBytes(cert, key []byte) *http.Transport {
+func WithCertBytes(cert, key []byte) *http.Transport {
 	tlsCert, err := tls.X509KeyPair(cert, key)
 	if err != nil {
+		log.Error(err.Error())
 		return nil
 	}
 	conf := &tls.Config{

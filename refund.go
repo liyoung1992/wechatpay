@@ -18,7 +18,7 @@ import (
 )
 
 //退款
-func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult,error) {
+func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult, error) {
 
 	param.AppId = this.AppId
 	param.MchId = this.MchId
@@ -38,7 +38,7 @@ func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult,error) {
 	bytes_req, err := xml.Marshal(param)
 	if err != nil {
 		log.Error(err, "xml marshal failed")
-		return nil,err
+		return nil, err
 	}
 
 	str_req := string(bytes_req)
@@ -49,19 +49,19 @@ func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult,error) {
 	req, err := http.NewRequest("POST", REFUND_URL, bytes.NewReader(bytes_req))
 	if err != nil {
 		log.Error(err, "new http request failed,err :"+err.Error())
-		return nil,err
+		return nil, err
 	}
 	req.Header.Set("Accept", "application/xml")
 	req.Header.Set("Content-Type", "application/xml;charset=utf-8")
 
 	w_req := http.Client{
-		Transport: withCertBytes(this.ApiclientCert, this.ApiclientKey),
+		Transport: WithCertBytes(this.ApiclientCert, this.ApiclientKey),
 	}
 
 	resp, _err := w_req.Do(req)
 	if _err != nil {
 		log.Error(err, "http request failed! err :"+_err.Error())
-		return nil,err
+		return nil, err
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
 
@@ -70,19 +70,13 @@ func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult,error) {
 	_err = xml.Unmarshal(body, &refund_resp)
 	if _err != nil {
 		log.Error(err, "http request failed! err :"+_err.Error())
-		return nil,err
+		return nil, err
 	}
-   return &refund_resp,nil
-	// if refund_resp.ResultCode == "SUCCESS" {
-	// 	return true
-	// } else {
-	// 	return false
-	// }
-
+	return &refund_resp, nil
 }
 
 //退款查询
-func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefundQueryResult,error) {
+func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefundQueryResult, error) {
 
 	refund_status.AppId = this.AppId
 	refund_status.MchId = this.MchId
@@ -100,7 +94,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 	bytes_req, err := xml.Marshal(refund_status)
 	if err != nil {
 		log.Error(err, "xml marshal failed,err:"+err.Error())
-		return nil,err
+		return nil, err
 	}
 
 	str_req := string(bytes_req)
@@ -111,7 +105,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 	req, err := http.NewRequest("POST", REFUND_QUERY_URL, bytes.NewReader(bytes_req))
 	if err != nil {
 		log.Error(err, "new http request failed,err :"+err.Error())
-		return nil,err
+		return nil, err
 	}
 	req.Header.Set("Accept", "application/xml")
 	req.Header.Set("Content-Type", "application/xml;charset=utf-8")
@@ -120,7 +114,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 	resp, _err := w_req.Do(req)
 	if _err != nil {
 		log.Error(err, "http request failed! err :"+_err.Error())
-		return nil,err
+		return nil, err
 	}
 	var refund_resp OrderRefundQueryResult
 	body, _ := ioutil.ReadAll(resp.Body)
@@ -128,9 +122,9 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 	_err = xml.Unmarshal(body, &refund_resp)
 	if _err != nil {
 		log.Error(err, "http request failed! err :"+_err.Error())
-		return nil,err
+		return nil, err
 	}
-	return &refund_resp,nil
+	return &refund_resp, nil
 	// if refund_resp.RefundStatus_0 == "SUCCESS" {
 	// 	return true
 	// } else {
