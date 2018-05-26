@@ -23,6 +23,48 @@
 
 - 退款查询
 
+
+## 集成方式
+强烈建议开发前仔细阅读[微信支付官方文档](https://pay.weixin.qq.com/wiki/doc/api/index.html)
+
+
+### 创建支付
+
+```go
+
+	wechat_cert, err := ioutil.ReadFile("config/wechat/apiclient_cert.pem")
+	if err != nil {
+		panic(err)
+	}
+	wechat_key, err := ioutil.ReadFile("config/wechat/apiclient_key.pem")
+
+	wechat_client = wechatpay.New(os.Getenv("WECHAT_APPID"),os.Getenv("WECHAT_MCHID"),
+	os.Getenv("WECHAT_APIKEY"),wechat_key,wechat_cert)
+
+	if err != nil {
+		panic(err)
+	}
+
+```
+
+### 发起扫码支付(其他支付改对应的tradetype即可)
+
+```go
+
+	var pay_data wechatpay.UnitOrder
+	pay_data.NotifyUrl = os.Getenv("WECHAT_NOTIFY_URL")
+	pay_data.TradeType = "NATIVE"
+	pay_data.Body = payweb.Subject
+	pay_data.SpbillCreateIp =  c.ClientIP()
+
+	pay_data.TotalFee = 1
+	pay_data.OutTradeNo = payweb.OrderId
+	result ,err:= wechat_client.Pay(pay_data)
+    ......
+
+```
+APP支付和公众号支付都是先返回：预支付交易单，然后用预支付交易码在进行支付操作
+
 ## 异步通知
 
 ```go
@@ -88,48 +130,6 @@ func (this *WechatPay) PayNotifyUrl(c *gin.Context) {
 }
 
 ```
-
-## 集成方式
-强烈建议开发前仔细阅读[微信支付官方文档](https://pay.weixin.qq.com/wiki/doc/api/index.html)
-
-
-### 创建支付
-
-```go
-
-	wechat_cert, err := ioutil.ReadFile("config/wechat/apiclient_cert.pem")
-	if err != nil {
-		panic(err)
-	}
-	wechat_key, err := ioutil.ReadFile("config/wechat/apiclient_key.pem")
-
-	wechat_client = wechatpay.New(os.Getenv("WECHAT_APPID"),os.Getenv("WECHAT_MCHID"),
-	os.Getenv("WECHAT_APIKEY"),wechat_key,wechat_cert)
-
-	if err != nil {
-		panic(err)
-	}
-
-```
-
-### 发起扫码支付(其他支付改对应的tradetype即可)
-
-```go
-
-	var pay_data wechatpay.UnitOrder
-	pay_data.NotifyUrl = os.Getenv("WECHAT_NOTIFY_URL")
-	pay_data.TradeType = "NATIVE"
-	pay_data.Body = payweb.Subject
-	pay_data.SpbillCreateIp =  c.ClientIP()
-
-	pay_data.TotalFee = 1
-	pay_data.OutTradeNo = payweb.OrderId
-	result ,err:= wechat_client.Pay(pay_data)
-    ......
-
-```
-APP支付和公众号支付都是先返回：预支付交易单，然后用预支付交易码在进行支付操作
-
 
 ## License
 
