@@ -23,6 +23,10 @@
 
 - 退款查询
 
+## TODO 
+- 小程序支付
+- 单元测试
+
 
 ## 集成方式
 强烈建议开发前仔细阅读[微信支付官方文档](https://pay.weixin.qq.com/wiki/doc/api/index.html)
