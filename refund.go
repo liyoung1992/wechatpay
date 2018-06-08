@@ -2,18 +2,10 @@ package wechatpay
 
 import (
 	"bytes"
-
 	"encoding/xml"
-
 	log "github.com/sdbaiguanghe/glog"
-
 	"io/ioutil"
-
 	"net/http"
-
-	"strconv"
-	"time"
-
 	"strings"
 )
 
@@ -80,8 +72,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 
 	refund_status.AppId = this.AppId
 	refund_status.MchId = this.MchId
-	refund_status.NonceStr = refund_status.OutTradeNo + strconv.FormatInt(time.Now().Unix(), 10)
-	// refund_status.OutTradeNo = order_id
+	refund_status.NonceStr = randomNonceStr()
 
 	var m map[string]interface{}
 	m = make(map[string]interface{}, 0)
