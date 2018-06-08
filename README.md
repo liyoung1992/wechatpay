@@ -76,7 +76,6 @@ APP支付、公众号支付、小程序支付都是先返回：预支付交易�
 	refund_data.OutTradeNo = order_id
 	refund_data.OutRefundNo = "r" + order_id
 	refund_data.RefundFee = 1 
-	fmt.Println(refund_data)
 	result, err := wechat_client.Refund(refund_data)
 
 ```
