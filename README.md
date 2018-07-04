@@ -156,6 +156,14 @@ func (this *WechatPay) PayNotifyUrl(c *gin.Context) {
 }
 
 ```
+##其他支付方式（gosdk）
+- 支付宝 [支付宝sdk](https://github.com/smartwalle/alipay)
+
+- stripe [stripe国际支付](https://github.com/stripe/stripe-go)
+
+- paypal [paypal国际支付](https://github.com/logpacker/PayPal-Go-SDK)
+
+以上几种支付sdk，都亲测可用！且已经开发上线。有需要的可以直接联系我！
 
 ## License
 
