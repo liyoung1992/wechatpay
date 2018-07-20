@@ -2,15 +2,9 @@ package wechatpay
 
 import (
 	"bytes"
-	// "fmt"
 	"encoding/xml"
-
-	// log "github.com/sdbaiguanghe/glog"
 	"io/ioutil"
 	"net/http"
-	// "encoding/json"
-	// "errors"
-	// "github.com/gin-gonic/gin"
 	"strings"
 )
 

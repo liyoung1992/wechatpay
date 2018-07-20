@@ -92,7 +92,6 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 	str_req = strings.Replace(str_req, "RefundQuery", "xml", -1)
 	bytes_req = []byte(str_req)
 
-	//发送unified order请求.
 	req, err := http.NewRequest("POST", REFUND_QUERY_URL, bytes.NewReader(bytes_req))
 	if err != nil {
 		log.Error(err, "new http request failed,err :"+err.Error())
@@ -116,9 +115,4 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 		return nil, err
 	}
 	return &refund_resp, nil
-	// if refund_resp.RefundStatus_0 == "SUCCESS" {
-	// 	return true
-	// } else {
-	// 	return false
-	// }
 }
