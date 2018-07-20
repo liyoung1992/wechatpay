@@ -155,7 +155,7 @@ func (this *WechatPay) PayNotifyUrl(c *gin.Context) {
 }
 
 ```
-##其他支付方式（gosdk）
+## 其他支付方式（gosdk）
 
 - 支付宝 [支付宝sdk](https://github.com/smartwalle/alipay)
 
