@@ -218,10 +218,6 @@ func (pay WechatPayController) WechatWebNotifyUrl(c *gin.Context) {
 		if err != nil {
 			log.Error(err, "wechat pay marshal err :"+err.Error())
 		}
-		err = wechat_pay_recoed_producer.Publish("wechat_pay", record)
-		if err != nil {
-			log.Error(err, "wechat publish record err:"+err.Error())
-		}
 		c.XML(http.StatusOK, gin.H{
 			"return_code": "SUCCESS",
 			"return_msg":  "OK",
