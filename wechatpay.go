@@ -6,12 +6,12 @@ import (
 	"fmt"
 
 	"crypto/tls"
-	log "github.com/sdbaiguanghe/glog"
 	"math/rand"
 	"net/http"
 	"sort"
 	"strings"
 	"time"
+	"log"
 )
 
 type WechatPay struct {
@@ -62,17 +62,17 @@ func (this *WechatPay) VerifySign(needVerifyM map[string]interface{}, sign strin
 	delete(needVerifyM,"sign")
 	signCalc := GetSign(needVerifyM, this.ApiKey)
 	if sign == signCalc {
-		log.Info("wechat verify success!")
+		log.Println("wechat verify success!")
 		return true
 	}
-	log.Info("wechat vertify failed!")
+	log.Println("wechat vertify failed!")
 	return false
 }
 
 func WithCertBytes(cert, key []byte) *http.Transport {
 	tlsCert, err := tls.X509KeyPair(cert, key)
 	if err != nil {
-		log.Error(err.Error())
+		log.Println(err.Error())
 		return nil
 	}
 	conf := &tls.Config{

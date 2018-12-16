@@ -3,10 +3,10 @@ package wechatpay
 import (
 	"bytes"
 	"encoding/xml"
-	log "github.com/sdbaiguanghe/glog"
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"log"
 )
 
 //退款
@@ -29,7 +29,7 @@ func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult, error) {
 
 	bytes_req, err := xml.Marshal(param)
 	if err != nil {
-		log.Error(err, "xml marshal failed")
+		log.Println(err.Error(), "xml marshal failed")
 		return nil, err
 	}
 
@@ -40,7 +40,7 @@ func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult, error) {
 	//发送unified order请求.
 	req, err := http.NewRequest("POST", REFUND_URL, bytes.NewReader(bytes_req))
 	if err != nil {
-		log.Error(err, "new http request failed,err :"+err.Error())
+		log.Println( "new http request failed,err :"+err.Error())
 		return nil, err
 	}
 	req.Header.Set("Accept", "application/xml")
@@ -52,7 +52,7 @@ func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult, error) {
 
 	resp, _err := w_req.Do(req)
 	if _err != nil {
-		log.Error(err, "http request failed! err :"+_err.Error())
+		log.Println("http request failed! err :"+_err.Error())
 		return nil, err
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
@@ -61,7 +61,7 @@ func (this *WechatPay) Refund(param OrderRefund) (*OrderRefundResult, error) {
 
 	_err = xml.Unmarshal(body, &refund_resp)
 	if _err != nil {
-		log.Error(err, "http request failed! err :"+_err.Error())
+		log.Println("http request failed! err :"+_err.Error())
 		return nil, err
 	}
 	return &refund_resp, nil
@@ -84,7 +84,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 
 	bytes_req, err := xml.Marshal(refund_status)
 	if err != nil {
-		log.Error(err, "xml marshal failed,err:"+err.Error())
+		log.Println( "xml marshal failed,err:"+err.Error())
 		return nil, err
 	}
 
@@ -94,7 +94,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 
 	req, err := http.NewRequest("POST", REFUND_QUERY_URL, bytes.NewReader(bytes_req))
 	if err != nil {
-		log.Error(err, "new http request failed,err :"+err.Error())
+		log.Println("new http request failed,err :"+err.Error())
 		return nil, err
 	}
 	req.Header.Set("Accept", "application/xml")
@@ -103,7 +103,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 	w_req := http.Client{}
 	resp, _err := w_req.Do(req)
 	if _err != nil {
-		log.Error(err, "http request failed! err :"+_err.Error())
+		log.Println("http request failed! err :"+_err.Error())
 		return nil, err
 	}
 	var refund_resp OrderRefundQueryResult
@@ -111,7 +111,7 @@ func (this *WechatPay) RefundQuery(refund_status OrderRefundQuery) (*OrderRefund
 
 	_err = xml.Unmarshal(body, &refund_resp)
 	if _err != nil {
-		log.Error(err, "http request failed! err :"+_err.Error())
+		log.Println("http request failed! err :"+_err.Error())
 		return nil, err
 	}
 	return &refund_resp, nil
