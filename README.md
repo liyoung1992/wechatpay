@@ -17,7 +17,6 @@
 
 ## 目前实现的接口
 
-
 - 扫码支付（NATIVE ）
 
 - H5支付 （MWEB）
@@ -65,7 +64,7 @@
 ```go
 
 	var pay_data wechatpay.UnitOrder
-	pay_data.NotifyUrl = os.Getenv("WECHAT_NOTIFY_URL")
+	pay_data.NotifyUrl ="your notify_url"
 	pay_data.TradeType = "NATIVE"
 	pay_data.Body = payweb.Subject
 	pay_data.SpbillCreateIp =  c.ClientIP()

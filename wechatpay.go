@@ -4,9 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-
 	"crypto/tls"
-	log "github.com/sdbaiguanghe/glog"
 	"math/rand"
 	"net/http"
 	"sort"
@@ -57,22 +55,18 @@ func GetSign(mReq map[string]interface{}, key string) (sign string) {
 	return upperSign
 }
 
-//微信支付签名验证函数
 func (this *WechatPay) VerifySign(needVerifyM map[string]interface{}, sign string) bool {
 	delete(needVerifyM,"sign")
 	signCalc := GetSign(needVerifyM, this.ApiKey)
 	if sign == signCalc {
-		log.Info("wechat verify success!")
 		return true
 	}
-	log.Info("wechat vertify failed!")
 	return false
 }
 
 func WithCertBytes(cert, key []byte) *http.Transport {
 	tlsCert, err := tls.X509KeyPair(cert, key)
 	if err != nil {
-		log.Error(err.Error())
 		return nil
 	}
 	conf := &tls.Config{
