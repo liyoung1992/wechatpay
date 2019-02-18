@@ -3,10 +3,10 @@ package wechatpay
 import (
 	"bytes"
 	"encoding/xml"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"errors"
 )
 
 //统一下单
@@ -31,6 +31,9 @@ func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 	}
 	if param.TradeType == "JSAPI" {
 		m["openid"] = param.Openid
+	}
+	if param.FeeType != "" {
+		m["fee_type"] = param.FeeType
 	}
 	param.Sign = GetSign(m, this.ApiKey)
 
@@ -61,9 +64,8 @@ func (this *WechatPay) Pay(param UnitOrder) (*UnifyOrderResult, error) {
 	err = xml.Unmarshal(body, &pay_result)
 	if err != nil {
 		return nil, err
-	}else if pay_result.ReturnCode != "SUCCESS" {
+	} else if pay_result.ReturnCode != "SUCCESS" {
 		return nil, errors.New(pay_result.ReturnMsg)
 	}
 	return &pay_result, nil
 }
-

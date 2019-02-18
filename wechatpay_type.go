@@ -23,6 +23,7 @@ type UnitOrder struct {
 	TotalFee       int    `xml:"total_fee"`
 	OutTradeNo     string `xml:"out_trade_no"`
 	SceneInfo      string `xml:"scene_info"`
+	FeeType        string `xml:"fee_type"`
 	Openid         string `xml:"openid"`
 	Referer        string
 }
