@@ -111,6 +111,7 @@ type OrderRefundResult struct {
 	RefundFee     int    `xml:"refund_fee"`
 	TotalFee      int    `xml:"total_fee"`
 	CashFee       int    `xml:"cash_fee"`
+	ErrCodeDes    string `xml:"err_code_des"`
 }
 
 //退款查询
